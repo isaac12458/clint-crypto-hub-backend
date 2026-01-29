@@ -1,0 +1,7 @@
+module.exports = {
+  BTC: "bc1qaa7t2u3s7kazrrtj599ssets8trj5ztqhadglm",
+  ETH: "0xF000BAbD873e71fc61CeF2821c27F60Cb061a977",
+  USDT_TRC20: "TX1P3TwFT7tNEsyJZt9A5XBd8LNBNYqUbg",
+  USDT_ERC20: "0xF000BAbD873e71fc61CeF2821c27F60Cb061a977",
+};
+
