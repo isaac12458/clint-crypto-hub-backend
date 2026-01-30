@@ -1,3 +1,5 @@
+require("dotenv").config(); // ✅ MUST be first
+
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
@@ -7,7 +9,7 @@ const userRoutes = require("./routes/user.routes");
 const walletRoutes = require("./routes/wallets");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +26,6 @@ app.use("/users", userRoutes);
 app.use("/api/wallets", walletRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
+  console.log(`Backend running on port ${PORT}`);
 });
 
