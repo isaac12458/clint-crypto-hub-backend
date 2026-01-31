@@ -1,4 +1,4 @@
-require("dotenv").config(); // ✅ MUST be first
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// 🔥 CONNECT DATABASE
+// 🔥 CONNECT DATABASE FIRST
 connectDB();
 
 app.get("/", (req, res) => {
