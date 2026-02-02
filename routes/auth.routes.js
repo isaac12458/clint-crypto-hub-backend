@@ -41,16 +41,17 @@ router.post("/signup", async (req, res) => {
     await newUser.save();
 
     // 6️⃣ Respond (NEVER send password)
-    const token = generateToken(user._id);
+    const token = generateToken(newUser._id);
 
 res.json({
   token,
   user: {
-    userId: user.userId,
-    email: user.email,
-    fullName: user.fullName,
+    userId: newUser.userId,
+    email: newUser.email,
+    fullName: newUser.fullName,
   },
 });
+
 
   } catch (error) {
     console.error("Signup error:", error);
@@ -77,11 +78,8 @@ router.post("/login", async (req, res) => {
     }
 
     // 🔐 CREATE JWT
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = generateToken(user._id);
+
 
     res.json({
       token,
