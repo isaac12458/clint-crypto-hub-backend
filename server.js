@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+
 const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/auth.routes");
@@ -11,20 +12,24 @@ const walletRoutes = require("./routes/wallets");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// 🔥 CONNECT DATABASE FIRST
+// Connect database
 connectDB();
 
+// Health check
 app.get("/", (req, res) => {
   res.json({ status: "Clint Crypto Backend Running 🚀" });
 });
 
+// Routes
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/api/wallets", walletRoutes);
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });

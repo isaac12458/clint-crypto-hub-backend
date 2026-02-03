@@ -53,6 +53,7 @@ res.json({
 });
 
 
+
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ error: "Server error" });
