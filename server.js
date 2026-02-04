@@ -14,18 +14,18 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'Clint Crypto API running 🚀' });
 });
 
-// Routes
+// Database
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
+
+// Routes ✅ EXACT MATCH
 app.use('/auth', require('./routes/auth.routes'));
 app.use('/users', require('./routes/users.routes'));
 app.use('/api/wallets', require('./routes/wallets'));
 
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB error:', err));
-
-// IMPORTANT: Render PORT
+// Port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
