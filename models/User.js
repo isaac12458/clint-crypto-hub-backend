@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-/**
- * USER SCHEMA
- */
 const UserSchema = new mongoose.Schema(
   {
     userId: {
@@ -11,7 +8,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-
     email: {
       type: String,
       required: true,
@@ -19,37 +15,33 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-
     fullName: {
       type: String,
       required: true,
-      trim: true,
     },
-
     password: {
       type: String,
       required: true,
-      select: false, // 🔒 never return password by default
+      select: false,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 /**
- * 🔐 HASH PASSWORD BEFORE SAVING USER
+ * 🔐 HASH PASSWORD BEFORE SAVE
+ * IMPORTANT:
+ * - MUST use function(next)
+ * - MUST NOT use arrow function
  */
 UserSchema.pre("save", async function (next) {
   try {
-    // Only hash if password was modified or is new
     if (!this.isModified("password")) {
       return next();
     }
 
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-
     next();
   } catch (error) {
     next(error);
@@ -57,14 +49,11 @@ UserSchema.pre("save", async function (next) {
 });
 
 /**
- * 🔑 COMPARE PASSWORD DURING LOGIN
+ * 🔑 COMPARE PASSWORD METHOD
  */
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-/**
- * EXPORT MODEL
- */
 module.exports = mongoose.model("User", UserSchema);
 
