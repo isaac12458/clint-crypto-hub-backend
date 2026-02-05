@@ -15,11 +15,10 @@ app.use(express.json());
 // Health check
 app.get('/', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Clint Crypto API running' });
-});
-
+})
 // Routes
 app.use('/auth', require('./routes/auth.routes.js'));
-app.use('/users', require('./routes/user.routes.js'));
+app.use('/users', require('./routes/users.routes.js'));
 app.use('/api/wallets', require('./routes/wallets.js'));
 
 const PORT = process.env.PORT || 5000;
