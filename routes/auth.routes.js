@@ -77,9 +77,35 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+router.get("/verify", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
     // 🔐 CREATE JWT
-    const token = generateToken(user._id);
+    const accessToken = jwt.sign(
+  { id: user._id },
+  process.env.JWT_SECRET,
+  { expiresIn: "15m" }
+);
+
+const refreshToken = jwt.sign(
+  { id: user._id },
+  process.env.JWT_REFRESH_SECRET,
+  { expiresIn: "65432d" }
+);
+
 
 
     res.json({
