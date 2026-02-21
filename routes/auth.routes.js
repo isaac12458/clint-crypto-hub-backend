@@ -110,13 +110,14 @@ const refreshToken = jwt.sign(
 
 
     res.json({
-      token,
-      user: {
-        userId: user.userId,
-        email: user.email,
-        fullName: user.fullName,
-      },
-    });
+  accessToken,
+  refreshToken,
+  user: {
+    userId: user.userId,
+    email: user.email,
+    fullName: user.fullName,
+  },
+});
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Server error" });
